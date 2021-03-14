@@ -11,54 +11,40 @@ play <- function() {
   cat("\nRock, Paper or Scissors?\n")
   you <- readline() %>% tolower()
   
-  # if you is not rock, paper, scissors throw an error.
+  # if you play anything else that is not rock, paper, scissors throw an error.
   if (!(you %in% c("rock", "paper", "scissors"))) {
     stop("You must play either rock, paper or scissors. Just the rules.")
   }
   
   # if you and R made the same choice, no winner. Prompt another round.
   if (identical(R, you)) {
-    cat("\nWe both played ", R, ". No winner this round.\n")
+    cat("\nWe both played ", R, ". No winner this time.\n")
     
   }else{
-    # if you play rock:
-    if (you == "rock") {
-      # if R plays scissors, you win.
-      if (R == "scissors") {
-        cat("\nYou win this time, bravo! I played ", R, " :(\n")
-      }else{
-        # else R wins.
-        cat("\nI win.", "I chose ", R,  ". Wish you luck next time.\n")
-      }
-    }
+    # when do you win? If:
+    # 1. you == rock & R == scissors, Or;
+    # 2. you == paper & R == rock, Or;
+    # 3. you == scissors & R == paper
+    # else you lose!
     
-    # if you play scissors:
-    if (you == "scissors") {
-      # if R plays paper, you 
-      if (R == "paper") {
-        cat("\nYou win this time, bravo! I played ", R, " :(\n")
-      }else{
-        # else R wins.
-        cat("\nI win.", "I chose ", R,  ". Wish you luck next time.\n")
-      }
-    }
+    # check conditions:
+    c1 <- (you == "rock") & (R == "scissors")
+    c2 <- (you == "paper") & (R == "rock")
+    c3 <- (you == "scissors") & (R == "paper")
     
-    # if you play paper:
-    if (you == "paper") {
-      # if R plays rock, you win.
-      if (R == "rock") {
-        cat("\nYou win this time, bravo! I played ", R, " :(\n")
-      }else{
-        # else R wins.
-        cat("\nI win.", "I chose ", R,  ". Wish you luck next time.\n")
-      }
-    }
+    # combining all those:
+    c4 <- any(c1, c2, c3)
     
+    # decision:
+    if (c4) {
+      cat("\nYou win this time, bravo! I played ", R, " :(\n")
+    }else{
+      cat("\nI win.", "I played ", R,  ". Wish you luck next time.\n")
+    }
   }
   
-  
   # prompt whether to continue playing or exit game.
-  cat("Another round maybe?\n[y/n]")
+  cat("\nAnother round maybe?\n[y/n]")
   reply <- readline() %>% tolower()
   yes <- "y"
   
@@ -68,13 +54,12 @@ play <- function() {
     Recall()
   }else{
     # exit game
-    cat("\nSad to see you go buddy :( \nHave a good one!\n\n")
+    cat("\nSad to see you go buddy :( \n\nHave a good one!\n\n")
     return(1)
   }
 }
 
-
-# Let's test that:
+# test if that works:
 play()
 paper
 y
@@ -83,5 +68,4 @@ y
 scissors
 n
 
-
-# Seems good!
+# and it does!
